@@ -1,38 +1,27 @@
 import CategoriaCursos from './utils/CategoriaCurso';
 import ListaCursoComponente from './componentes/ListaCursoComponente';
 import TipoCurso from './utils/TipoCurso';
-import FavoriteService from './service/FavoriteService';
 import Curso from './curso/Curso';
-import IDataService from './service/IDataService';
-import ICurso from './curso/ICurso';
 import CursoOnline from './curso/CursoOnline';
 import CursoPresencial from './curso/CursoPresencial';
-
 class CursoApp {
-    private data = [
-        {tipo: TipoCurso.PRESENCIAL, nome: 'Typescript', cargaHoraria: 40, categoria: CategoriaCursos.DESENVOLVIMENTO_WEB, local: 'Recife', vagas: 20},
-        {tipo: TipoCurso.PRESENCIAL, nome: 'JavaScript', cargaHoraria: 40, categoria: CategoriaCursos.DESENVOLVIMENTO_WEB, local: 'Sao Paulo', vagas: 10},
-        {tipo: TipoCurso.ONLINE, nome: 'PhotoShop', cargaHoraria: 40, categoria: CategoriaCursos.DESIGN, link: 'http://www.imediabrasil.com.br' }
-    ];
-    private target:HTMLElement;
-    private listaCursoComponente:ListaCursoComponente;
-    private listaCursos:Array<ICurso>;
-    
-    constructor(element:HTMLElement) {
+    constructor(element) {
+        this.data = [
+            { tipo: TipoCurso.PRESENCIAL, nome: 'Typescript', cargaHoraria: 40, categoria: CategoriaCursos.DESENVOLVIMENTO_WEB, local: 'Recife', vagas: 20 },
+            { tipo: TipoCurso.PRESENCIAL, nome: 'JavaScript', cargaHoraria: 40, categoria: CategoriaCursos.DESENVOLVIMENTO_WEB, local: 'Sao Paulo', vagas: 10 },
+            { tipo: TipoCurso.ONLINE, nome: 'PhotoShop', cargaHoraria: 40, categoria: CategoriaCursos.DESIGN, link: 'http://www.imediabrasil.com.br' }
+        ];
         this.target = element;
         this.listaCursos = [];
         this.data.forEach(item => this.listaCursos.push(this.factoryCurso(item)));
         this.init();
     }
-
     init() {
         this.listaCursoComponente = new ListaCursoComponente(this.listaCursos);
-        //erro no codigo dia 12/02 as 21:38
-        //this.target.innerHTML = this.listaCursoComponente.render();
+        this.target.innerHTML = this.listaCursoComponente.render();
     }
-
-    factoryCurso(item):ICurso {
-        switch(item.tipo){
+    factoryCurso(item) {
+        switch (item.tipo) {
             case TipoCurso.ONLINE:
                 return new CursoOnline(item.nome, item.cargaHoraria, item.categoria, item.link);
             case TipoCurso.PRESENCIAL:
@@ -42,6 +31,5 @@ class CursoApp {
         }
     }
 }
-
 let target = document.getElementById('app');
 let app = new CursoApp(target);
